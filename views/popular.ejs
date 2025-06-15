@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Popular Anime and Movies</title>
+  <link rel="stylesheet" href="/css/popular.css">
+</head>
+<body>
+
+  <h1>Popular Anime and Movies</h1>
+
+  <div class="tab-buttons">
+    <button class="tab-button active" onclick="switchTab('series')">Series</button>
+    <button class="tab-button" onclick="switchTab('movies')">Movies</button>
+  </div>
+
+  <!-- Series Tab -->
+  <div id="series" class="tab-content active">
+    <div class="anime-list">
+      <% const series = [
+          { title: "Naruto", rating: 8.559, duration: "25 min.", year: 2007, img: "https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg" },
+          { title: "Solo Leveling", rating: 8.552, duration: "24 min.", year: 2020, img: "https://upload.wikimedia.org/wikipedia/en/6/6f/Solo_Leveling_volume_1_cover.jpg" }
+      ]; %>
+      <% series.forEach((anime, index) => { %>
+        <div class="anime-item">
+          <img src="<%= anime.img %>" alt="<%= anime.title %>">
+          <div class="anime-info">
+            <h2><%= index + 1 %>. <%= anime.title %></h2>
+            <p>TMDb <%= anime.rating %> - <%= anime.duration %> - <%= anime.year %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Movies Tab -->
+  <div id="movies" class="tab-content">
+    <div class="anime-list">
+      <% const movies = [
+          { title: "Demon Slayer: Mugen Train", rating: 8.4, duration: "117 min.", year: 2020, img: "https://upload.wikimedia.org/wikipedia/en/0/0c/Demon_Slayer_Mugen_Train_Poster.jpg" },
+          { title: "Your Name", rating: 8.5, duration: "106 min.", year: 2016, img: "https://upload.wikimedia.org/wikipedia/en/7/7e/Your_Name_poster.png" }
+      ]; %>
+      <% movies.forEach((movie, index) => { %>
+        <div class="anime-item">
+          <img src="<%= movie.img %>" alt="<%= movie.title %>">
+          <div class="anime-info">
+            <h2><%= index + 1 %>. <%= movie.title %></h2>
+            <p>TMDb <%= movie.rating %> - <%= movie.duration %> - <%= movie.year %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <script src="/js/popular.js"></script>
+</body>
+</html>

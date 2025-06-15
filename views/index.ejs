@@ -1,0 +1,157 @@
+<%- include('partials/header') %>
+
+<div class="container mx-auto p-4">
+  <!-- Flash Messages -->
+  <% if (messages.error) { %>
+    <div class="bg-red-500 p-2 rounded mb-4 text-white">
+      <%= messages.error %>
+    </div>
+  <% } %>
+  <% if (messages.success) { %>
+    <div class="bg-green-500 p-2 rounded mb-4 text-white">
+      <%= messages.success %>
+    </div>
+  <% } %>
+
+  <!-- Search Form with Suggestions -->
+  <form action="/search" method="GET" id="search-form" class="mb-4 flex space-x-4 items-center relative">
+    <div class="relative w-1/2">
+      <input type="text" name="q" id="search-input" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" placeholder="Search anime..." class="p-2 rounded bg-gray-700 text-white w-full focus:outline-none transition duration-200" autocomplete="off">
+      <!-- Suggestions Dropdown -->
+      <div id="suggestions" class="absolute z-10 w-full bg-gray-800 rounded-lg mt-1 max-h-48 overflow-y-auto shadow-lg border border-gray-600 animate-suggestion-drop"></div>
+    </div>
+    <select name="genre" id="genre-select" class="p-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <option value="">All Genres</option>
+      <% genres.forEach(genre => { %>
+        <option value="<%= genre._id %>" <%= selectedGenre === genre._id.toString() ? 'selected' : '' %>><%= genre.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit" class="bg-blue-500 p-2 rounded text-white hover:bg-blue-600 transition duration-200">Search</button>
+    <% if (selectedGenre) { %>
+      <a href="/search?q=<%= encodeURIComponent(searchQuery) %>" class="bg-red-500 p-2 rounded text-white hover:bg-red-600 transition duration-200">X</a>
+    <% } %>
+  </form>
+
+  <!-- Animation -->
+  <%- include('animation') %>
+
+  <!-- Display Search Results or Genre-based List -->
+  <% if (isSearchResult) { %>
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-2xl font-bold text-red-500">Search Results</h2>
+      <a href="/" class="bg-red-500 p-2 rounded text-white hover:bg-red-600 transition duration-200">Clear Search</a>
+    </div>
+    <% if (animes.length > 0) { %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <% animes.forEach(anime => { %>
+          <div class="flex flex-col items-center">
+            <a href="/anime/<%= anime._id %>">
+              <img src="<%= anime.imageUrl %>" alt="<%= anime.name %>" class="w-40 h-56 object-cover rounded-lg">
+              <p class="text-center mt-2"><%= anime.name %></p>
+            </a>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p class="text-gray-300 mb-8">No anime found for your search.</p>
+    <% } %>
+  <% } else { %>
+    <!-- Default Genre-based List -->
+    <% genres.forEach(genre => { %>
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-red-500"><%= genre.name %></h2>
+        <div class="flex space-x-4 overflow-x-auto py-4">
+          <% animes.filter(anime => anime.genres.some(g => g._id.toString() === genre._id.toString())).forEach(anime => { %>
+            <div class="flex flex-col items-center">
+              <a href="/anime/<%= anime._id %>">
+                <img src="<%= anime.imageUrl %>" alt="<%= anime.name %>" class="w-40 h-56 object-cover rounded-lg">
+                <p class="text-center mt-2"><%= anime.name %></p>
+              </a>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+
+<%- include('popular') %>
+<%- include('partials/footer') %>
+
+<!-- Pass animes data to client-side JavaScript -->
+<script type="application/json" id="animes-data">
+  <%- JSON.stringify(animes.map(anime => ({
+    name: String(anime.name).replace(/</g, '<').replace(/>/g, '>'),
+    id: anime._id
+  }))) %>
+</script>
+
+<script>
+  const animes = JSON.parse(document.getElementById('animes-data').textContent);
+  const searchInput = document.getElementById('search-input');
+  const suggestionsDiv = document.getElementById('suggestions');
+  const genreSelect = document.getElementById('genre-select');
+
+  // Show suggestions as user types (but don't submit the form)
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.trim().toLowerCase();
+    suggestionsDiv.innerHTML = '';
+    suggestionsDiv.classList.add('hidden');
+
+    // Reset genre to "All Genres" when typing in search box
+    if (query.length > 0) {
+      genreSelect.value = '';
+    }
+
+    if (query.length === 0) return;
+
+    const filteredAnimes = animes.filter(anime => anime.name.toLowerCase().includes(query));
+    if (filteredAnimes.length === 0) return;
+
+    filteredAnimes.forEach(anime => {
+      const div = document.createElement('div');
+      div.className = 'p-2 hover:bg-gray-600 cursor-pointer text-white transition duration-150 ease-in-out hover:text-blue-300';
+      div.textContent = anime.name;
+      div.addEventListener('click', () => {
+        searchInput.value = anime.name;
+        suggestionsDiv.classList.add('hidden');
+        // Do not submit the form here; wait for the Search button
+      });
+      suggestionsDiv.appendChild(div);
+    });
+
+    suggestionsDiv.classList.remove('hidden');
+  });
+
+  // Clear search box when genre is selected and submit the form
+  genreSelect.addEventListener('change', () => {
+    if (genreSelect.value) {
+      searchInput.value = ''; // Clear search box
+      suggestionsDiv.classList.add('hidden'); // Hide suggestions
+      document.getElementById('search-form').submit(); // Submit the form when a genre is selected
+    }
+  });
+
+  // Hide suggestions when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+      suggestionsDiv.classList.add('hidden');
+    }
+  });
+</script>
+
+<style>
+  /* Fade-in animation for suggestion dropdown */
+  @keyframes suggestionDrop {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .animate-suggestion-drop {
+    animation: suggestionDrop 0.3s ease-out forwards;
+  }
+</style>
