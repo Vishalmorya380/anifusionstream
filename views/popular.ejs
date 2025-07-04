@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Popular Anime and Movies</title>
+  <link rel="stylesheet" href="/css/popular.css">
+</head>
+<body>
+
+  <h1 class="text-3xl font-bold text-center my-6 text-blue-400">Popular Anime and Movies</h1>
+
+  <div class="tab-buttons flex justify-center gap-4 mb-6">
+    <button class="tab-button active" onclick="switchTab('series')">Top 5 Anime Series</button>
+    <button class="tab-button" onclick="switchTab('movies')">Top 5 Anime Movies</button>
+  </div>
+
+  <!-- Series Tab -->
+  <div id="series" class="tab-content active">
+    <div class="anime-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <% const series = [
+        { title: "Naruto", rating: 8.6, duration: "25 min.", year: 2007, img: "/images/naruto.png" },
+        { title: "Solo Leveling", rating: 8.5, duration: "24 min.", year: 2024, img: "/images/Solo Leveling.png" },
+        { title: "Demon Slayer", rating: 8.7, duration: "23 min.", year: 2019, img: "/images/Demon Slayer.png" },
+        { title: "Dragon Ball", rating: 8.2, duration: "24 min.", year: 1986, img: "/images/Dragon ball.png" },
+        { title: "Jujutsu Kaisen", rating: 8.8, duration: "24 min.", year: 2020, img: "/images/jujutsu kaisen.png" }
+      ]; %>
+      <% series.forEach((anime, index) => { %>
+        <div class="anime-item bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-transform duration-200 border border-gray-700 hover:border-blue-500 cursor-pointer">
+          <img src="<%= anime.img %>" alt="<%= anime.title %>" class="w-32 h-44 object-cover rounded-md mb-2 border-2 border-transparent hover:border-blue-400 transition-all duration-200">
+          <div class="anime-info text-center">
+            <h2 class="font-bold text-lg text-white mb-1"><%= index + 1 %>. <%= anime.title %></h2>
+            <p class="text-gray-300 text-sm">TMDb <%= anime.rating %> - <%= anime.duration %> - <%= anime.year %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- Movies Tab -->
+  <div id="movies" class="tab-content">
+    <div class="anime-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <% const movies = [
+        { title: "Demon Slayer: Mugen Train", rating: 8.4, duration: "117 min.", year: 2020, img: "/images/Demon Slayer.png" },
+        { title: "Your Name", rating: 8.5, duration: "106 min.", year: 2016, img: "/images/Teogonia.png" },
+        { title: "Pokemon: The First Movie", rating: 7.4, duration: "75 min.", year: 1998, img: "/images/pokemon.png" },
+        { title: "That Time I Got Reincarnated as a Slime: Scarlet Bond", rating: 7.7, duration: "108 min.", year: 2022, img: "/images/that time i got reincarnated as a slime season.png" },
+        { title: "Teogonia", rating: 7.9, duration: "110 min.", year: 2023, img: "/images/Teogonia.png" }
+      ]; %>
+      <% movies.forEach((movie, index) => { %>
+        <div class="anime-item bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col items-center hover:scale-105 hover:shadow-2xl transition-transform duration-200 border border-gray-700 hover:border-blue-500 cursor-pointer">
+          <img src="<%= movie.img %>" alt="<%= movie.title %>" class="w-32 h-44 object-cover rounded-md mb-2 border-2 border-transparent hover:border-blue-400 transition-all duration-200">
+          <div class="anime-info text-center">
+            <h2 class="font-bold text-lg text-white mb-1"><%= index + 1 %>. <%= movie.title %></h2>
+            <p class="text-gray-300 text-sm">TMDb <%= movie.rating %> - <%= movie.duration %> - <%= movie.year %></p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <script src="/js/popular.js"></script>
+</body>
+</html>
