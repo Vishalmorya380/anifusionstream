@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+<div class="container mx-auto p-4">
+  <h1 class="text-2xl font-bold mb-4">Edit Episode - <%= anime.name %> (Season <%= season.seasonNumber %>)</h1>
+  <% if (messages.error) { %>
+    <div class="bg-red-500 text-white p-2 rounded mb-4"><%= messages.error %></div>
+  <% } %>
+  <% if (messages.success) { %>
+    <div class="bg-green-500 text-white p-2 rounded mb-4"><%= messages.success %></div>
+  <% } %>
+  <form action="/anime/edit-episode/<%= anime._id %>/<%= season._id %>/<%= episode._id %>" method="POST" enctype="application/x-www-form-urlencoded">
+    <div class="mb-4">
+      <label class="block mb-1">Episode Number</label>
+      <input type="number" name="episodeNumber" value="<%= episode.episodeNumber %>" class="w-full p-2 rounded bg-gray-700 text-white" required min="1">
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Episode Title</label>
+      <input type="text" name="title" value="<%= episode.title %>" class="w-full p-2 rounded bg-gray-700 text-white" required>
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Video URL (optional)</label>
+      <input type="url" name="videoUrl" value="<%= episode.videoUrl %>" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="https://strtape.tech/e/...">
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Embed Code (optional)</label>
+      <textarea name="embedCode" class="w-full p-2 rounded bg-gray-700 text-white" placeholder="<iframe src='...'></iframe>"><%= episode.embedCode %></textarea>
+    </div>
+    <div class="mb-4">
+      <label class="block mb-1">Season Number</label>
+      <input type="number" name="seasonNumber" value="<%= season.seasonNumber %>" class="w-full p-2 rounded bg-gray-700 text-white" required min="1">
+    </div>
+    <button type="submit" class="bg-blue-500 p-2 rounded">Update Episode</button>
+  </form>
+</div>
+<%- include('partials/footer') %>

@@ -1,0 +1,61 @@
+<%- include("partials/header") %>
+
+<section class="bg-gray-950 text-white min-h-screen py-16 px-4 md:px-16">
+  <div class="max-w-4xl mx-auto animate-fade-in">
+    <h1 class="text-4xl md:text-5xl font-bold text-yellow-400 mb-6 border-b border-yellow-400 pb-2">DMCA POLICY</h1>
+    
+    <div class="space-y-6 text-gray-300 text-lg leading-relaxed animate-slide-up">
+      <p>
+        <strong class="text-white">Digital Millennium Copyright Act Policy (DMCA):</strong><br>
+        We do not store any copyright-protected content on our servers. All posts are for educational and promotional purposes only. Any linked content is hosted on third-party websites.
+      </p>
+
+      <p>
+        This is a <span class="text-pink-400 font-semibold">promotional website</span> only. All downloadable materials are shared solely for testing and introductory purposes. This website is meant strictly for private use.
+      </p>
+
+      <p>
+        Content shown here is indexed from non-affiliated third-party sources—similar to how search engines work. We do not host any copyrighted files directly.
+      </p>
+
+      <p>
+        We <span class="text-green-400 font-semibold">encourage all users</span> to purchase the original CDs, DVDs, or media directly from official sources to support creators and publishers.
+      </p>
+
+      <p>
+        If you are a copyright holder or a legal representative and believe your work has been posted without permission, please email us at: 
+        <a href="mailto:anifusionstream@gmail.com" class="text-blue-400 underline hover:text-blue-600 transition duration-300">anifusionstream@gmail.com</a>
+        and we will take action promptly.
+      </p>
+
+      <p>
+        You may also contact us through our <a href="mailto:anifusionstream@gmail.com" class="text-yellow-400 underline hover:text-yellow-600 transition duration-300">Contact Us (anifusionstream@gmail.com)</a> page.
+      </p>
+
+      <p class="italic text-sm text-gray-400 mt-4">
+        By continuing to browse this site, you affirm your understanding and compliance with this DMCA policy. All materials are believed to be in the public domain and are the property of their respective owners.
+      </p>
+    </div>
+  </div>
+</section>
+
+<%- include("partials/footer") %>
+
+<!-- Animation with Tailwind CSS -->
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slideUp 1.2s ease-out forwards;
+  }
+</style>

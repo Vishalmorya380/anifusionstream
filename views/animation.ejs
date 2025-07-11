@@ -1,0 +1,73 @@
+<style>
+  .carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-item {
+    min-width: 180px;
+    margin: 0 0.75rem;
+    flex-shrink: 0;
+  }
+</style>
+
+<div class="carousel-wrapper py-10 relative bg-black">
+  <div id="carouselTrack" class="carousel-track px-4">
+    <% const items = [
+      { name: "Solo Leveling", color: "bg-cyan-400", img: "/images/Solo Leveling.png" },
+      { name: "NARUTO", color: "bg-orange-400", img: "/images/naruto.png" },
+      { name: "POKEMON", color: "bg-blue-400", img: "/images/pokemon.png" },
+      { name: "Jujutsu Kaisen", color: "bg-orange-500", img: "/images/jujutsu kaisen.png" },
+      { name: "Demon Slayer", color: "bg-cyan-400", img: "/images/Demon Slayer.png" },
+      { name: "Dragon ball", color: "bg-green-500", img: "/images/Dragon ball.png" },
+      { name: "Teogonia", color: "bg-cyan-400", img: "/images/Teogonia.png" },
+    ]; %>
+
+    <% items.forEach(item => { %>
+      <div class="carousel-item flex flex-col items-center">
+        <div class="<%= item.color %> rounded-t-full rounded-b-none w-28 h-32 flex justify-center items-center overflow-hidden">
+          <img src="<%= item.img %>" alt="<%= item.name %>" class="h-30 object-contain" />
+        </div>
+        <div class="bg-black w-28 text-center font-bold mt-[-4px] text-white"><%= item.name %></div>
+      </div>
+    <% }) %>
+
+    <!-- Clone first few items for seamless looping -->
+    <% items.slice(0, 3).forEach(item => { %>
+      <div class="carousel-item flex flex-col items-center">
+        <div class="<%= item.color %> rounded-t-full rounded-b-none w-28 h-32 flex justify-center items-center overflow-hidden">
+          <img src="<%= item.img %>" alt="<%= item.name %>" class="h-30 object-contain" />
+        </div>
+        <div class="bg-black w-28 text-center font-bold mt-[-4px] text-white"><%= item.name %></div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<script>
+  const track = document.getElementById("carouselTrack");
+  const interval = 2500; // 2.5 seconds
+  const itemWidth = 180; // item width
+  const margin = 24; // 2 * 12px (margin: 0 0.75rem)
+  const shiftAmount = itemWidth + margin;
+
+  setInterval(() => {
+    track.style.transition = "transform 0.5s ease-in-out";
+    track.style.transform = `translateX(-${shiftAmount}px)`;
+
+    setTimeout(() => {
+      // Move first child to end
+      const firstItem = track.children[0];
+      track.appendChild(firstItem);
+
+      // Reset position
+      track.style.transition = "none";
+      track.style.transform = "translateX(0)";
+    }, 500); // Match transition duration
+  }, interval);
+</script>
