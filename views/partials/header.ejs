@@ -46,13 +46,11 @@
       <div class="flex flex-col space-y-2 p-4">
         <a href="/" class="hover:underline">Home</a>
         <% if (!session.isUserAuthenticated) { %>
-          <a href="" class="hover:underline">Genre</a>
           <a href="/user/register" class="hover:underline">Register</a>
           <a href="/user/login" class="hover:underline">Login</a>
           <a href="/dmca" class="hover:underline">DMCA</a>
           <a href="/privacy-policy" class="hover:underline">Privacy-policy</a>
         <% } else { %>
-          <a href="" class="hover:underline">Genre</a>
           <a href="/user/logout" class="hover:underline">Logout</a>
           <a href="/dmca" class="hover:underline">DMCA</a>
           <a href="/privacy-policy" class="hover:underline">Privacy-policy</a>
